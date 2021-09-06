@@ -3,11 +3,17 @@ import os, sys
 import telebot
 import config
 from telebot import types
+import logging
 
+
+logging.basicConfig(filename='bot_log.log', level=logging.INFO,format='%(asctime)s : %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p',encoding='utf-8')
 bot = telebot.TeleBot(config.TOKEN,parse_mode='html')
 
 @bot.message_handler(commands=['start'])
-def start(message):    
+def start(message):  
+
+    logging.info(message.text,' : ',message.from_user) 
+
     bot.send_message(message.chat.id,"Welcome to the club, {0.first_name}!\n я - {1.first_name} , бот созданный помочь с выбором пивасик.".format(message.from_user, bot.get_me()),
     parse_mode='html')
 
@@ -22,6 +28,8 @@ def start(message):
     
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
+
+    logging.info(call.data,' : ',message.from_user)
     try:
         if call.message:
             if call.data == 'Ale':
@@ -67,6 +75,7 @@ def callback_inline(call):
                 bot.send_message(call.message.chat.id, 'Тип светлого лагера. Название происходит от чешского города Пльзень, где в 1842 году и был изобретен этот стиль.\nСодержание алкоголя от 4 до 6 %\nЦвет: от соломенного до золотого. \nВкус: горьковатый, с «земляными» нотками.')                
 
     except Exception as e:
+        logging.error(e,' : ',message.from_user)
         print(repr(e))
 
 bot.polling(none_stop=True)
