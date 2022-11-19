@@ -7,9 +7,11 @@ pipeline {
                 sh 'docker build -t podpivasnik:1.0 .'
             }
         }
+        def containers = sh 'docker ps -a -q'
+        
         stage('Docker Image Run') {
             steps {
-                sh 'docker rm -f $(docker ps -a -q)'
+                sh 'docker rm -f $containers'
                 sh 'docker run --name podpivasnik -d podpivasnik:1.0'
             }
         }
