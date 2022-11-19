@@ -7,7 +7,7 @@ pipeline {
                 sh 'docker build -t podpivasnik:1.0 .'
             }
         }
-        def containers = sh 'docker ps -a -q'
+        containers = sh 'docker ps -a -q'
         
         stage('Docker Image Run') {
             steps {
