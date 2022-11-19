@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Docker Image Run') {
             steps {
-                sh 'docker run podpivasnik:1.0 -d'
+                sh 'docker run -d podpivasnik:1.0'
             }
         }
     }
