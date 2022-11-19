@@ -10,7 +10,7 @@ pipeline {
         stage('Docker Image Run') {
             steps {
                 sh 'docker rm -f $(docker ps -a -q)'
-                sh 'docker run -name podpivasnik -d podpivasnik:1.0'
+                sh 'docker run --name podpivasnik -d podpivasnik:1.0'
             }
         }
     }
